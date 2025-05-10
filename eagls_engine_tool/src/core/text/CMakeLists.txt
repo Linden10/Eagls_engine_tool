@@ -5,6 +5,7 @@ set(SOURCES
     text_extractor.cpp
     text_replacer.cpp
     encoding_converter.cpp
+    text_converter.cpp
 )
 
 # 头文件
@@ -12,6 +13,7 @@ set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/text/text_extractor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/text/text_replacer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/text/encoding_converter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/text/text_converter.h
 )
 
 # 创建动态库
