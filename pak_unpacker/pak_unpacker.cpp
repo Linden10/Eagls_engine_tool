@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -45,7 +45,8 @@ public:
         if (m_seed < 0) {
             m_seed += 2147483647;
         }
-        return m_seed * 4.656612875245797e-10 * 256;
+        // 使用static_cast明确转换，避免警告
+        return static_cast<int32_t>(m_seed * 4.656612875245797e-10 * 256);
     }
 
 private:
@@ -59,7 +60,7 @@ void DecryptIndex(std::vector<uint8_t>& data) {
     uint32_t seed = *reinterpret_cast<const uint32_t*>(data.data() + data.size() - 4);
     rng.srand(seed);
     size_t len_IndexKey = strlen(IndexKey);
-    
+
     // 解密idx文件内容（除了最后4字节的种子）
     for (size_t i = 0; i < data.size() - 4; ++i) {
         data[i] ^= IndexKey[rng.rand() % len_IndexKey];
@@ -74,7 +75,7 @@ void DecryptCg(std::vector<uint8_t>& data) {
     size_t limit = data.size() - 1;
     if (limit > 0x174b)
         limit = 0x174b;
-    
+
     // 解密文件内容
     for (size_t i = 0; i < limit; ++i) {
         data[i] ^= EaglsKey[rng.rand() % 12];
@@ -85,11 +86,12 @@ void DecryptCg(std::vector<uint8_t>& data) {
 void DecryptDat(std::vector<uint8_t>& data) {
     CRuntimeRandomGenerator rng;
     int text_offset = 3600;
-    int text_length = data.size() - text_offset - 2;
-    
+    // 使用static_cast明确转换size_t到int，避免警告
+    int text_length = static_cast<int>(data.size()) - text_offset - 2;
+
     // 使用文件最后一个字节作为种子
     rng.srand((int8_t)data[data.size() - 1]);
-    
+
     // 解密文件内容，每隔2字节解密一次
     for (int i = 0; i < text_length; i += 2) {
         data[text_offset + i] ^= EaglsKey[rng.rand() % 12];
@@ -99,7 +101,7 @@ void DecryptDat(std::vector<uint8_t>& data) {
 // 根据文件扩展名选择合适的解密方法
 void DecryptFile(std::vector<uint8_t>& data, const std::string& filename) {
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
-    
+
     if (extension == "dat") {
         DecryptDat(data);
         std::cout << "已解密DAT文件: " << filename << std::endl;
@@ -120,7 +122,7 @@ int main(int argc, char* argv[]) {
     std::string pak_path = argv[1];
     std::string output_dir = argv[2];
     bool decrypt = true;
-    
+
     if (argc > 3) {
         decrypt = (std::string(argv[3]) == "1");
     }
@@ -157,32 +159,32 @@ int main(int argc, char* argv[]) {
     size_t file_count = 0;
     for (size_t i = 0; i < idx_data.size() - 4; i += sizeof(FileDesc)) {
         FileDesc* file_desc = reinterpret_cast<FileDesc*>(idx_data.data() + i);
-        
+
         // 检查文件名是否为空，如果是则跳过
         if (file_desc->filename[0] == 0) {
             continue;
         }
-        
+
         std::string filename(file_desc->filename);
         // 移除文件名中的空字符
         filename = filename.c_str();
-        
+
         if (filename.empty()) {
             continue;
         }
-        
+
         std::cout << "发现文件: " << filename << ", 偏移量: " << file_desc->offset << ", 大小: " << file_desc->size << std::endl;
-        
+
         // 从pak文件中提取文件内容
         std::vector<uint8_t> file_data(file_desc->size);
         pak_file.seekg(file_desc->offset - 0x174b);  // 调整偏移量
         pak_file.read(reinterpret_cast<char*>(file_data.data()), file_desc->size);
-        
+
         // 如果需要解密，则解密文件
         if (decrypt) {
             DecryptFile(file_data, filename);
         }
-        
+
         // 保存文件
         std::string output_path = output_dir + "/" + filename;
         std::ofstream output_file(output_path, std::ios::binary);
@@ -190,16 +192,16 @@ int main(int argc, char* argv[]) {
             std::cerr << "无法创建输出文件: " << output_path << std::endl;
             continue;
         }
-        
+
         output_file.write(reinterpret_cast<const char*>(file_data.data()), file_data.size());
         output_file.close();
-        
+
         std::cout << "已保存文件: " << output_path << std::endl;
         file_count++;
     }
-    
+
     pak_file.close();
     std::cout << "解包完成，共提取了 " << file_count << " 个文件" << std::endl;
-    
+
     return 0;
 }
