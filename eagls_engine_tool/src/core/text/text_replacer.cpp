@@ -1,4 +1,4 @@
-#include "core/text/text_replacer.h"
+﻿#include "core/text/text_replacer.h"
 #include "core/file/file_utils.h"
 #include <fstream>
 #include <iostream>

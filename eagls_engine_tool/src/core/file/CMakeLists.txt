@@ -1,5 +1,8 @@
 set(MODULE_NAME eagls_file)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # 源文件
 set(SOURCES
     pak_file.cpp
@@ -28,7 +31,7 @@ target_compile_definitions(${MODULE_NAME} PUBLIC EAGLS_FILE_DLL)
 
 # 链接其他模块
 target_link_libraries(${MODULE_NAME}
-    eagls_encryption
+    ${CMAKE_CURRENT_SOURCE_DIR}/../encryption/build/Release/eagls_encryption.lib
 )
 
 # 安装规则

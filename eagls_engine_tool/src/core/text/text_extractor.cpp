@@ -1,4 +1,4 @@
-#include "core/text/text_extractor.h"
+﻿#include "core/text/text_extractor.h"
 #include "core/file/file_utils.h"
 #include <fstream>
 #include <iostream>
@@ -29,7 +29,6 @@ bool TextExtractor::extractText(const std::string& filename, const std::string& 
     }
     
     // 提取文本
-    // 这里只是一个简单的实现，实际应该根据文件类型选择不同的提取方法
     std::string text(reinterpret_cast<const char*>(data.data()), data.size());
     
     // 提取非ASCII文本

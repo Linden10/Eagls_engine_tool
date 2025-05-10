@@ -47,3 +47,9 @@ install(TARGETS eagls_compression eagls_encryption eagls_file eagls_image eagls_
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin
 )
+
+# 复制第三方库DLL到bin目录
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/libpng/lib/libpng16.dll
+    DESTINATION bin
+)

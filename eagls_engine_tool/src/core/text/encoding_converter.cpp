@@ -1,4 +1,4 @@
-#include "core/text/encoding_converter.h"
+﻿#include "core/text/encoding_converter.h"
 #include "core/file/file_utils.h"
 #include <fstream>
 #include <iostream>
@@ -15,8 +15,7 @@ EncodingConverter::~EncodingConverter() {
 }
 
 std::string EncodingConverter::convert(const std::string& input, const std::string& fromEncoding, const std::string& toEncoding) {
-    // 这里只是一个简单的实现，实际应该使用专业的编码转换库
-    // 如iconv或Windows的MultiByteToWideChar/WideCharToMultiByte
+    // 这里只是一个简单的实现
     
     // 如果源编码和目标编码相同，直接返回
     if (fromEncoding == toEncoding) {
@@ -100,7 +99,7 @@ std::string EncodingConverter::detectFileEncoding(const std::string& filename) {
 }
 
 std::string EncodingConverter::detectStringEncoding(const std::string& input) {
-    // 这里只是一个简单的实现，实际应该使用专业的编码检测库
+    // 这里只是一个简单的实现
     
     // 检查BOM
     if (input.size() >= 3 && input[0] == '\xEF' && input[1] == '\xBB' && input[2] == '\xBF') {

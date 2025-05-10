@@ -1,4 +1,4 @@
-#include "core/text/text_converter.h"
+﻿#include "core/text/text_converter.h"
 #include "core/file/file_utils.h"
 #include <fstream>
 #include <iostream>
@@ -33,7 +33,6 @@ bool TextConverter::binaryToText(const std::string& inputFilename, const std::st
     // 根据编码选择转换方法
     if (encoding == "GBK" || encoding == "gbk") {
         // GBK编码
-        // 注意：这里使用简单的方法，实际应该使用专业的编码转换库
         text = std::string(reinterpret_cast<const char*>(data.data()), data.size());
         
         // 移除无法解码的字符
@@ -101,7 +100,6 @@ bool TextConverter::textToBinary(const std::string& inputFilename, const std::st
     // 根据编码选择转换方法
     if (encoding == "GBK" || encoding == "gbk") {
         // GBK编码
-        // 注意：这里使用简单的方法，实际应该使用专业的编码转换库
         data.assign(text.begin(), text.end());
     } else if (encoding == "UTF-8" || encoding == "utf-8" || encoding == "utf8") {
         // UTF-8编码

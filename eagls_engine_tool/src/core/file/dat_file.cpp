@@ -1,4 +1,4 @@
-#include "core/file/dat_file.h"
+﻿#include "core/file/dat_file.h"
 #include "core/file/file_utils.h"
 #include "core/encryption/eagls_encryption.h"
 #include <fstream>

@@ -1,5 +1,8 @@
 set(MODULE_NAME eagls_encryption)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # 源文件
 set(SOURCES
     lehmer.cpp

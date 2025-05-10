@@ -1,4 +1,4 @@
-#include "core/encryption/lehmer.h"
+﻿#include "core/encryption/lehmer.h"
 
 namespace eagls {
 namespace encryption {
