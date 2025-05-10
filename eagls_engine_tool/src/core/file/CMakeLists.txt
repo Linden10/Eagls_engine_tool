@@ -4,12 +4,14 @@ set(MODULE_NAME eagls_file)
 set(SOURCES
     pak_file.cpp
     file_utils.cpp
+    dat_file.cpp
 )
 
 # 头文件
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/file/pak_file.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/file/file_utils.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../include/core/file/dat_file.h
 )
 
 # 创建动态库
