@@ -1,0 +1,33 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Solution
+        run: msbuild Eagls_engine_tool.sln /p:Configuration=Release
+
+      - name: Find all EXEs
+        id: find_exes
+        run: |
+          $exes = Get-ChildItem -Path . -Recurse -Filter *.exe | Select-Object -ExpandProperty FullName
+          $exes | Out-File -FilePath exelist.txt
+
+      - name: Upload EXEs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-executables
+          path: |
+            **/*.exe
+            exelist.txt
